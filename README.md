@@ -1,139 +1,18 @@
-# KV-Cache Inference Benchmark
+# 💫 About Me:
+🔭 I'm currently working on:<br><br>Porting a from-scratch transformer implementation (causal attention + KV caching) from NumPy to PyTorch, and benchmarking inference speedups against naive generation.<br><br>👯 I'm looking to collaborate on:<br><br>Real-time AI systems — voice agents, retrieval-augmented generation, and agentic workflows that have to hold up under actual latency and reliability constraints, not just work in a notebook.<br><br>🤝 I'm looking for help with:<br><br>Getting hands-on with vLLM and GPU-backed inference optimization — everything I've built so far has been CPU-only, and I want to close that gap with real hardware.<br><br>🌱 I'm currently learning:<br><br>Production LLM serving internals — continuous batching, quantization, and what actually changes when you move from "a model that works" to "a model that serves traffic."<br><br>💬 Ask me about:<br><br>RAG systems, KV caching, or building AI agents that evaluate and improve their own outputs — I've built real, working versions of all three from scratch.<br><br>⚡ Fun fact:<br><br>Honestly, I don't have a real one to offer here — this is the one field only you can fill in truthfully. Something genuinely personal and a little unexpected works better than a resume-adjacent joke (e.g. a hobby, a habit, something unrelated to code entirely) — GitHub profile fun facts land best when they're not about GitHub.
 
-A from-scratch NumPy implementation of a decoder-only transformer, built
-to measure and demonstrate the single most important optimization in LLM
-inference serving: **KV caching**.
 
-## Why this project exists
+## 🌐 Socials:
+[![email](https://img.shields.io/badge/Email-D14836?logo=gmail&logoColor=white)](mailto:arnavarpan03@gmail.com) 
 
-Production LLM serving systems (vLLM, TGI, TensorRT-LLM) all build on the
-same core idea: don't recompute what you've already computed. Every new
-token only needs attention against the tokens *before* it — if you cache
-each layer's keys and values as you go, generating token *N+1* only
-requires work proportional to the new token, not the whole sequence again.
+# 💻 Tech Stack:
+![NumPy](https://img.shields.io/badge/numpy-%23013243.svg?style=for-the-badge&logo=numpy&logoColor=white) ![Pandas](https://img.shields.io/badge/pandas-%23150458.svg?style=for-the-badge&logo=pandas&logoColor=white) ![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white) ![scikit-learn](https://img.shields.io/badge/scikit--learn-%23F7931E.svg?style=for-the-badge&logo=scikit-learn&logoColor=white) ![Kotlin](https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white) ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![Streamlit](https://img.shields.io/badge/Streamlit-%23FE4B4B.svg?style=for-the-badge&logo=streamlit&logoColor=white) ![Firebase](https://img.shields.io/badge/firebase-a08021?style=for-the-badge&logo=firebase&logoColor=ffcd34) ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white) ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white) ![GitLab](https://img.shields.io/badge/gitlab-%23181717.svg?style=for-the-badge&logo=gitlab&logoColor=white) ![Jira](https://img.shields.io/badge/jira-%230A0FFF.svg?style=for-the-badge&logo=jira&logoColor=white) ![Matplotlib](https://img.shields.io/badge/Matplotlib-%23ffffff.svg?style=for-the-badge&logo=Matplotlib&logoColor=black) ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+# 📊 GitHub Stats:
+![](https://github-readme-stats.shion.dev/api?username=Arnavbits26&theme=dark&hide_border=false&include_all_commits=false&count_private=false)<br/>
+![](https://streak-stats.demolab.com/?user=Arnavbits26&theme=dark&hide_border=false)<br/>
+![](https://github-readme-stats.shion.dev/api/top-langs/?username=Arnavbits26&theme=dark&hide_border=false&include_all_commits=false&count_private=false&layout=compact)
 
-Rather than call vLLM as a black box, I implemented the mechanism itself
-— causal self-attention, multi-head splitting, and the KV cache — from
-scratch, to actually understand what these serving systems are doing
-under the hood, then built a benchmark to measure the effect for real.
+---
+[![](https://komarev.com/ghpvc/?username=Arnavbits26&icon=0&color=0)](https://visitcount.itsvg.in)
 
-## What's actually being compared
-
-- **`generate_naive`** — at every generation step, re-run the *entire*
-  forward pass over the whole sequence so far. This is what a "just call
-  the model in a loop" implementation looks like if you never think
-  about caching. Cost grows close to quadratically with sequence length.
-- **`generate_kv_cached`** — compute the new token's Q/K/V only, reuse
-  cached K/V for every token already seen, and append to the cache. Cost
-  per step stays close to constant.
-
-Both produce output from the exact same model and the same random seed
-— the only difference is how much redundant work each one does.
-
-## Real results (measured on this machine, single CPU core, no GPU)
-
-```
-new tokens |  naive (s) | kv-cache (s) |  speedup |  naive tok/s |   kv tok/s |  naive MB |   kv MB
-----------------------------------------------------------------------------------------------------
-         8 |      0.092 |        0.042 |    2.20x |         87.0 |      191.1 |     9.96 |   9.25
-        16 |      0.168 |        0.080 |    2.11x |         95.4 |      201.0 |    10.64 |   9.38
-        32 |      0.421 |        0.155 |    2.72x |         75.9 |      206.3 |    12.01 |  10.07
-        64 |      1.003 |        0.296 |    3.39x |         63.8 |      216.1 |    14.77 |  11.45
-       128 |      3.133 |        0.620 |    5.06x |         40.9 |      206.6 |    20.26 |  14.19
-```
-
-**Batching comparison** (8 independent sequences, 32 new tokens each):
-
-```
-Sequential (one at a time): 1.074s (238.3 tok/s)
-Batched (all together):     0.399s (640.9 tok/s)
-Batching speedup:           2.69x
-```
-
-Raw numbers (all runs) are saved to `results/results.json`.
-
-## What the numbers actually show
-
-- **The speedup grows with sequence length** (2.2x → 5.1x from 8 to 128
-  new tokens), exactly as expected: naive generation's cost scales close
-  to quadratically (recomputing more each step), while KV-cached
-  generation's throughput stays roughly flat (~190–215 tok/s) regardless
-  of how long the sequence gets. This is the actual mechanism behind why
-  serving systems care about caching at all.
-- **Naive throughput visibly degrades** as sequences get longer (87 →
-  41 tok/s) — this is the real-world reason a naive implementation
-  becomes unusable for long generations, not just "slower."
-- **Batching alone gave a 2.7x throughput gain** even without any
-  dynamic scheduling — just processing 8 sequences in one batched matrix
-  operation instead of 8 sequential calls. This is the same underlying
-  principle (better hardware utilization per call) that vLLM's
-  continuous batching builds on, just without the dynamic
-  request-admission logic a real serving system adds on top.
-
-## An honest note on the memory numbers
-
-KV-cached generation shows *lower* peak memory here than naive, which is
-the opposite of the usual "KV cache costs memory" framing you'll read
-about in production LLM serving. That's specific to what's being
-compared: naive here means "recompute everything," which involves large,
-repeatedly-reallocated attention matrices over a growing sequence — not
-"no cache" in the production sense of a model serving zero context. In a
-real serving system, the KV cache is compared against *not keeping any
-state at all* (impossible for autoregressive generation) — there, the
-cache is a pure memory cost paid in exchange for the compute savings
-shown above. This is exactly the trade-off `quantization` (also on my
-list to explore next) is designed to help with, by shrinking the size of
-each cached entry.
-
-## How to run
-
-```bash
-bash run.sh
-```
-
-That's it — one command, no downloads, no GPU required, no external
-model weights, done. If your Python environment blocks system-wide pip
-installs (common on newer Debian/Ubuntu), `run.sh` automatically retries
-with `--break-system-packages`.
-
-If you'd rather run the pieces manually:
-
-```bash
-pip install -r requirements.txt
-python3 benchmark.py
-```
-
-## Project structure
-
-```
-kv-cache-benchmark/
-├── src/
-│   ├── model.py        # MiniTransformer: attention, layers, forward_full + forward_step
-│   └── generate.py      # generate_naive vs generate_kv_cached
-├── benchmark.py          # Runs both, measures latency/throughput/memory, saves results
-├── results/results.json  # Raw output from the last run
-├── requirements.txt
-└── run.sh                 # Single-command entry point
-```
-
-## Honest limitations, and what I'd build next with more time/hardware
-
-- **No GPU, no PyTorch, no real pretrained weights.** This was built and
-  fully run in a CPU-only sandbox with no internet access to a model
-  hub, so I built the mechanism from first principles in NumPy instead
-  of using a real pretrained model via HuggingFace/vLLM. The model's
-  weights are randomly initialized — this measures *inference mechanics*
-  (attention cost, caching, batching), not output quality, which is
-  exactly what a from-scratch implementation is suited to demonstrate.
-- **Not GPU-parallel.** These results are on a single CPU core. On a GPU,
-  the absolute numbers would look completely different (much higher
-  throughput, memory measured in VRAM not RAM), but the *relative*
-  story — why caching matters, why batching matters — holds regardless
-  of hardware, since it's about avoiding redundant compute, not about
-  the hardware itself.
-- **Next steps if I had GPU access:** port `MiniTransformer` to PyTorch
-  (the forward-pass logic translates almost directly), then compare
-  against a real vLLM deployment of the same architecture to see how
-  much of vLLM's advantage comes from KV caching alone (demonstrated
-  here) versus its more advanced techniques — PagedAttention, continuous
-  batching with dynamic scheduling, and quantized weights.
+<!-- Proudly created with GPRM ( https://gprm.itsvg.in ) -->
