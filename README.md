@@ -1,4 +1,5 @@
-I'm currently working on:
+Hi Arnav this side :))
+I am a recent electronics and communications passout from bits pilani KK birla goa campus :
 
 Building end-to-end data science projects — from churn prediction to fraud detection — using Python, SQL, and machine learning to turn raw, messy data into decisions that actually matter.
 
