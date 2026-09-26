@@ -1,26 +1,33 @@
 Hi Arnav this side :))
 I am a recent Electronics and Communications passout from BITS Pilani, K.K. Birla Goa Campus.
 
-🔭 I'm currently working on:
+**🔭 I'm currently working on:**
 
 Building end-to-end data science projects — from churn prediction to fraud detection — using Python, SQL, and machine learning to turn raw, messy data into decisions that actually matter.
 
-👯 I'm looking to collaborate on:
+---
+
+**👯 I'm looking to collaborate on:**
 
 Data science and analytics projects that go from raw data to real business impact — predictive modelling, experimentation, and dashboards people actually use, not just notebooks that end at a metric.
 
-🤝 I'm looking for help with:
+---
+
+**🤝 I'm looking for help with:**
 
 Sharpening my statistics and experimentation design — I want to get better at rigorous A/B testing and causal analysis, not just fitting models and calling it done.
 
-🌱 I'm currently learning:
+---
+
+**🌱 I'm currently learning:**
 
 The fundamentals that make data science solid rather than flashy — hypothesis testing, experimental design, and how to turn a vague business question into a well-posed analytical one.
 
-💬 Ask me about:
+---
+
+**💬 Ask me about:**
 
 Predictive modelling (XGBoost, classification, clustering), SQL, or how I approach a messy real-world dataset — I've done this hands-on across internships and projects, not just in coursework.
-
 ## 🌐 Socials:
 [![email](https://img.shields.io/badge/Email-D14836?logo=gmail&logoColor=white)](mailto:arnavarpan03@gmail.com) 
 
