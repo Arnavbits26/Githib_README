@@ -1,4 +1,33 @@
-🔭 I'm currently working on:<br><br>Porting a from-scratch transformer implementation (causal attention + KV caching) from NumPy to PyTorch, and benchmarking inference speedups against naive generation.<br><br>👯 I'm looking to collaborate on:<br><br>Real-time AI systems — voice agents, retrieval-augmented generation, and agentic workflows that have to hold up under actual latency and reliability constraints, not just work in a notebook.<br><br>🤝 I'm looking for help with:<br><br>Getting hands-on with vLLM and GPU-backed inference optimization — everything I've built so far has been CPU-only, and I want to close that gap with real hardware.<br><br>🌱 I'm currently learning:<br><br>Production LLM serving internals — continuous batching, quantization, and what actually changes when you move from "a model that works" to "a model that serves traffic."<br><br>💬 Ask me about:<br><br>RAG systems, KV caching, or building AI agents that evaluate and improve their own outputs — I've built real, working versions of all three from scratch.<br><br>⚡ Fun fact:<br><br>Honestly, I don't have a real one to offer here — this is the one field only you can fill in truthfully. Something genuinely personal and a little unexpected works better than a resume-adjacent joke (e.g. a hobby, a habit, something unrelated to code entirely) — GitHub profile fun facts land best when they're not about GitHub. this looks very project oriented , can u change it to something like aspiring data scientist type about me
+Hi Arnav this side :))
+I am a recent Electronics and Communications passout from BITS Pilani, K.K. Birla Goa Campus.
+
+**🔭 I'm currently working on:**
+
+Building end-to-end data science projects — from churn prediction to fraud detection — using Python, SQL, and machine learning to turn raw, messy data into decisions that actually matter.
+
+---
+
+**👯 I'm looking to collaborate on:**
+
+Data science and analytics projects that go from raw data to real business impact — predictive modelling, experimentation, and dashboards people actually use, not just notebooks that end at a metric.
+
+---
+
+**🤝 I'm looking for help with:**
+
+Sharpening my statistics and experimentation design — I want to get better at rigorous A/B testing and causal analysis, not just fitting models and calling it done.
+
+---
+
+**🌱 I'm currently learning:**
+
+The fundamentals that make data science solid rather than flashy — hypothesis testing, experimental design, and how to turn a vague business question into a well-posed analytical one.
+
+---
+
+**💬 Ask me about:**
+
+Predictive modelling (XGBoost, classification, clustering), SQL, or how I approach a messy real-world dataset — I've done this hands-on across internships and projects, not just in coursework.
 ## 🌐 Socials:
 [![email](https://img.shields.io/badge/Email-D14836?logo=gmail&logoColor=white)](mailto:arnavarpan03@gmail.com) 
 
